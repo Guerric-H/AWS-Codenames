@@ -7,6 +7,7 @@
 
 .centrer{
     text-align: center;
+    margin-top: 100px;
 
 }
 
@@ -28,7 +29,7 @@
   border-radius: 4px;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.48);
   overflow: hidden;
-  padding: 20px 50px 20px 70px;
+  padding: 60px 60px 60px 60px;
   margin-bottom: 20px;
   font-size: 50px;
   position: relative;
@@ -40,29 +41,39 @@
   transition: background-position .7s,box-shadow .4s;
   background-size: 110%;
   font-family: 'Oswald', sans-serif;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.16) inset, 0px 0px 10px 0px #782CDA;
+  background-image: linear-gradient(to bottom, #782CDA, rgba(126, 94, 162, 0.51)), url("ressources/Images/button.PNG");
+
 }
+
 .one:hover{
-  background-position: 0% 30%;
+  background-position: 0% 80%;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.16) inset, 0px 0px 30px 0px #782CDA;
 }
+
 .one:hover:after{
   right: -40px;
   -webkit-transition: right .4s,-webkit-transform 30s .2s linear;
   transition: right .4s,-webkit-transform 30s .2s linear;
   transition: right .4s,transform 30s .2s linear;
   transition: right .4s,transform 30s .2s linear,-webkit-transform 30s .2s linear;
+  -webkit-transform: scale(1);
+          transform: scale(1);
 }
+
 .one:before{
   font-family: FontAwesome;
   display: block;
   position: absolute;
-}
-.one:before{
   -webkit-transition: all 1s;
   transition: all 1s;
   font-size: 30px;
   left: 25px;
   top: 19px;
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
 }
+
 .one:after{
   -webkit-transition: right .4s, -webkit-transform .2s;
   transition: right .4s, -webkit-transform .2s;
@@ -73,28 +84,5 @@
   right: -120px;
   top: -17px;
 }
-
-.one {
-  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.16) inset, 0px 0px 10px 0px #782CDA;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#782CDA), to(rgba(126, 94, 162, 0.51))), url("ressources/Images/button.PNG");
-  background-image: linear-gradient(to bottom, #782CDA, rgba(126, 94, 162, 0.51)), url("ressources/Images/button.PNG");
-}
-.one:hover {
-  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.16) inset, 0px 0px 30px 0px #782CDA;
-}
-.one:hover:after {
-  -webkit-transform: scale(1);
-          transform: scale(1);
-}
-.one:hover:before {
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
-}
-.one:after, .one:before {
-  content: "";
-}
-.one b {
-  color: #070707;
-  font-weight: 1000;
-}
+ 
 
