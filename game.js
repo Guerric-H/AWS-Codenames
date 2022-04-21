@@ -94,11 +94,6 @@ class Game {
 
 }
 
-//En cours, renvoie la couleur de la carte via l'ID de la carte
-function getCardByID(cardID){
-    return cardID 
-}
-
 //En cours, affichage de fin pour la victoire d'une équipe
 function victoire(numTeam){
     if(numTeam == 1)
