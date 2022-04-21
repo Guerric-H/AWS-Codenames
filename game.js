@@ -21,29 +21,15 @@ class Game {
         }
     }
 
-    //Initialise une partie vide
-    init(){
-        this.columnPlateau = new Array(5)
-        let randomType
-        for(let i = 0; i < 5; i++){
-            this.cards[i] = new Array(5)
-            for(let j = 0; j < 5; j++){
-                this.cards[i][j] = 0
-            }
-        }
-    }
-
+    
     //Remplie les mots et les couleurs
     initPlateau(){
         let randomType
-        this.init()
-        for(let i = 0; i < 5; i++){
-            for(let j = 0; j < 5; j++){
-                randomType = Math.floor(Math.random() * 4)
+        for(let i = 0; i < 25; i++){
+            randomType = Math.floor(Math.random() * 4)
                 while(!this.Type[randomType]) {randomType = Math.floor(Math.random() * 4)}
-                this.cards[i][j] = randomType
+                this.cards[i] = randomType
                 this.Type[randomType] --
-            }
         }
         this.gettingWords()
         
