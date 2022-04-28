@@ -172,4 +172,24 @@ const makeAllVisible=function() {
         }
     }
 }
+
+function reply_click(cardID)  {
+
+    //Permet de récupérer l'élément via son ID propre
+        let cd = document.getElementById(cardID)
+    //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
+        if(couleur12[cardID] == 1){
+          cd.removeAttribute("cartes")
+          cd.setAttribute("class","cartesRouge")
+        }
+        else if(couleur12[cardID] == 2){
+          cd.removeAttribute("cartes")
+              cd.setAttribute("class","cartesBleu")
+        }
+        else if(couleur12[cardID] == 3){
+              cd.removeAttribute("cartes")
+              cd.setAttribute("class","carteNoire")
+        }
+          
+  }
     
