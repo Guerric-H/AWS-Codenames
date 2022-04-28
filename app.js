@@ -10,6 +10,7 @@ const wordPage = __dirname+ '/public/js/dico.json'
 let dico = require(wordPage);
 let gameWords=[];
 let type=[8,8,8,1];
+let couleur=[];
 /**
  * @type {Socket}
  */
@@ -76,8 +77,17 @@ io.on('connection', (socket) => {
                 gameWords.push(randomWord);
             }
             console.log(gameWords);
-            io.to(room.id).emit('start game', room.players,gameWords);
-        
+            io.to(room.id).emit('start game', room.players,gameWords,couleur);
+            let randomType
+        for(let i = 0; i < 25; i++){
+            randomType = Math.floor(Math.random() * 4)
+                while(!type[randomType]) {randomType = Math.floor(Math.random() * 4)}
+                couleur[i] = randomType
+                type[randomType] --
+        }
+        console.table(couleur)
+        io.to(room.id).emit('start game', room.players,gameWords,couleur);
+        //io.to(room.id).emit('couleur',couleur);
         }
     });
 
