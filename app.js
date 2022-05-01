@@ -6,11 +6,11 @@ const app = express();
 const http = require('http').createServer(app);
 const path = require('path');
 const port = 8080;
-const wordPage = __dirname+ '/public/js/dico.json'
+const wordPage = __dirname + '/public/js/dico.json'
 let dico = require(wordPage);
-let gameWords=[];
-let type=[8,8,8,1];
-let couleur=[];
+let gameWords = [];
+let type = [8, 8, 8, 1];
+let couleur = [];
 /**
  * @type {Socket}
  */
@@ -31,16 +31,14 @@ app.get('/games/createRoom', (req, res) => {
 app.get('/words', (req, res) => {
     res.sendFile(__dirname + '/public/assets/scripts/words.js')
 })
-/*app.get('/games/lobby', (req, res) => {
-    res.sendFile(path.join(__dirname, 'templates/games/lobby.html'));
-});*/
+
 
 http.listen(port, () => {
     console.log(`Listening on http://localhost:${port}/`);
 });
 
 let rooms = [];
-let playername=[];
+let playername = [];
 
 io.on('connection', (socket) => {
     console.log(`[connection] ${socket.id}`);
@@ -69,25 +67,40 @@ io.on('connection', (socket) => {
 
         io.to(socket.id).emit('join room', room.id);
 
-        if (room.players.length === 4   ) {
-            
-            for(let i = 0; i < 25; i++){
+        socket.on('send_secret', (secret) => {
+            console.log(secret);
+            socket.broadcast.emit('actualize_secret', secret);
+        });
+
+        socket.on('pick_card', (card) => {
+            console.log(card);
+            socket.broadcast.emit('actualize_card', card);
+        });
+
+        socket.on('send_role', (id, username) => {
+            socket.broadcast.emit('actualize_role', id, username);
+
+        });
+
+        if (room.players.length === 4) {
+
+            for (let i = 0; i < 25; i++) {
                 let randomNumber = Math.floor(Math.random() * dico.length);
                 let randomWord = dico[randomNumber];
                 gameWords.push(randomWord);
             }
             console.log(gameWords);
-            io.to(room.id).emit('start game', room.players,gameWords,couleur);
             let randomType
-        for(let i = 0; i < 25; i++){
-            randomType = Math.floor(Math.random() * 4)
-                while(!type[randomType]) {randomType = Math.floor(Math.random() * 4)}
+
+            for (let i = 0; i < 25; i++) {
+                randomType = Math.floor(Math.random() * 4)
+                while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
                 couleur[i] = randomType
-                type[randomType] --
-        }
-        console.table(couleur)
-        io.to(room.id).emit('start game', room.players,gameWords,couleur);
-        //io.to(room.id).emit('couleur',couleur);
+                type[randomType]--
+            }
+            console.table(couleur)
+            io.to(room.id).emit('start game', room.players, gameWords, couleur);
+
         }
     });
 
@@ -108,6 +121,8 @@ io.on('connection', (socket) => {
             })
         })
     });
+
+
 });
 
 function createRoom(player) {
@@ -122,5 +137,5 @@ function createRoom(player) {
 }
 
 function roomId() {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).substring(2, 9);
 }
