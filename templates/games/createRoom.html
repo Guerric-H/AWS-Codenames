@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/createRoom.css">
+
+    <script src="/jquery/jquery.min.js" defer></script>
+    <script src="/bootstrap/js/bootstrap.min.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/js/index.js" defer></script>
+    <title>Codenames</title>
+
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <div class="alert d-none" role="alert" id="turn-message"></div>
+                <div class="card mb-3" id="user-card">
+                    <div class="card-body">
+
+                        <form method="POST" id="form">
+                            <div class="mb-3">
+                                <h1 class="h1">Codenames</h1>
+                                <label for="username" class="form-label">To enter the room choose your Nickname</label>
+                                <div class="inputbox">
+                                    <input type="text" class="form-control" id="username" minlength="2" maxlength="20"
+                                        placeholder="Enter your Nickname" required>
+                                </div>
+                                <button class="btn btn-primary" id="start" type="submit">Create Room</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="card mb-3 d-none" id="rooms-card">
+                    <div class="card-header">Salons disponibles</div>
+                    <ul class="list-group list-group-flush" id="rooms-list"></ul>
+                </div>
+                <div id="tohide">
+                    <div class="d-none" id="waiting-area">
+                        <div class="card mb-3">
+                            <div class="card-header">En attente d'un autre joueur</div>
+                            <div class="card-body mx-auto">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body text-center">
+                                Partage ce lien pour inviter quelqu'un à jouer avec toi
+                                <span id="link-to-share"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid" id="lobbygame">
+
+        <div class="score1 gridscore">
+            <div class="score">
+                Cartes restantes :
+            </div>
+
+            <div class="value" id="score_rouge">
+                8
+            </div>
+        </div>
+
+        <div class="information">
+            <label id="keyword_result">Mot-Clé
+            </label>
+            <label id="number_result">Nombre
+            </label>
+        </div>
+
+        <div class="score2 gridscore">
+            <div class="score">
+                Cartes restantes :
+            </div>
+
+            <div class="value" id="score_bleu">
+                8
+            </div>
+
+        </div>
+
+        <div class="indices">
+            <div class="clef">
+                <input type="text" name="keyword" id="keyword"> Saisir un mot-clé !</input>
+            </div>
+
+            <div class="nombre">
+                <input type="text" name="number_keyword" id="number_keyword"> Choisir le nombre de mots à faire
+                deviner.</input>
+            </div>
+            <div class="saisie">
+                <button type="submit" id="send_secret" onclick="send_secret()"> Envoyer !</button>
+            </div>
+        </div>
+
+        <div class="equipe equipe1">
+            <table>
+                <tr class="redspy">
+                    <td>
+                        Espion :
+                    </td>
+                    <td>
+                        <button id="espion-button1" class="button is-dark" onclick="jointeam(this.id)"></button>
+                    </td>
+                </tr>
+                <tr class="redagent">
+                    <td>
+                        Agent :
+                    </td>
+                    <td>
+                        <button id="agent-button1" class="button is-dark" onclick="jointeam(this.id)"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="equipe equipe2">
+            <table>
+                <tr class="bluespy">
+                    <td>
+                        Espion :
+
+                    </td>
+                    <td>
+                        <button id="espion-button2" class="button is-dark" onclick="jointeam(this.id)"></button>
+                    </td>
+                </tr>
+                <tr class="blueagent">
+                    <td>
+                        Agent :
+                    </td>
+                    <td>
+                        <button id="agent-button2" class="button is-dark" onclick="jointeam(this.id)"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="plateau">
+
+            <table>
+                <tr>
+                    <td><button class="cartes" id="0" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="1" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="2" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="3" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="4" onClick="reply_click(this.id)" type="submit"></button></td>
+                </tr>
+                <tr>
+                    <td><button class="cartes" id="5" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="6" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="7" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="8" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="9" onClick="reply_click(this.id)" type="submit"></button></td>
+                </tr>
+                <tr>
+                    <td><button class="cartes" id="10" onClick="reply_click(this.id)" type="submit"></button> </td>
+                    <td><button class="cartes" id="11" onClick="reply_click(this.id)" type="submit"></button> </td>
+                    <td><button class="cartes" id="12" onClick="reply_click(this.id)" type="submit"></button> </td>
+                    <td><button class="cartes" id="13" onClick="reply_click(this.id)" type="submit"></button> </td>
+                    <td><button class="cartes" id="14" onClick="reply_click(this.id)" type="submit"></button></td>
+                </tr>
+                <tr>
+                    <td><button class="cartes" id="15" onClick="reply_click(this.id)" type="submit"> </button></td>
+                    <td><button class="cartes" id="16" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="17" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="18" onClick="reply_click(this.id)" type="submit"></button></td>
+                    <td><button class="cartes" id="19" onClick="reply_click(this.id)" type="submit"></button></td>
+                </tr>
+                <tr>
+                    <td><button class="cartes" id="20" onClick="reply_click(this.id)" type="submit"> </button> </td>
+                    <td><button class="cartes" id="21" onClick="reply_click(this.id)" type="submit"> </button> </td>
+                    <td><button class="cartes" id="22" onClick="reply_click(this.id)" type="submit"> </button> </td>
+                    <td><button class="cartes" id="23" onClick="reply_click(this.id)" type="submit"> </button> </td>
+                    <td><button class="cartes" id="24" onClick="reply_click(this.id)" type="submit"></button></td>
+                </tr>
+
+            </table>
+        </div>
+</body>
+
+</html>
