@@ -108,6 +108,7 @@ socket.on('actualize_secret', (secret) => {
 
     document.getElementById('keyword_result').textContent = secret.word;
     document.getElementById('number_result').textContent = secret.nb_word;
+    agentTurn(secret.nb_word)
 });
 
 socket.on('actualize_card', (cardID) => {
@@ -134,6 +135,37 @@ socket.on('actualize_role', (id, username) => {
     role.disabled = true;
 });
 
+socket.on('changeTeamTurn', (teamNumber) => {
+    if(player.team == teamNumber){
+        player.turn = true;
+    }
+    else{
+        player.turn = false;
+    }
+    spyTurn()
+});
+
+function spyTurn(){
+    if(player.role == 0 && player.turn == true){
+        document.getElementById("send_secret").disabled = false;
+    }
+}
+
+function agentTurn(nb){
+    if(player.role == 1 && player.turn == true){
+        for (let i = 0; i < 25; i++) {
+            let GameP = document.getElementById(i);
+            GameP.disabled = false;
+        }
+    }
+
+    if(nb == carteRetournee){
+        for (let i = 0; i < 25; i++) {
+            let GameP = document.getElementById(i);
+            GameP.disabled = true;
+        }
+    }
+}
 
 function startGame(gameWords, couleur) {
 
@@ -168,6 +200,9 @@ const joinRoom = function () {
 }
 const jointeam = function (id) {
     let role = document.getElementById(id);
+    let clicked = 0
+    if(player.team == 1 || player.team == 2) clicked = 1
+
     if (id == "espion-button1") {
         player.team = 1;
         player.role = 0;
@@ -207,7 +242,7 @@ const jointeam = function (id) {
     if (player.role == 0) {
         makeAllVisible();
     }
-    socket.emit('send_role', id, player.username);
+    socket.emit('send_role', id, player.username, clicked);
 }
 
 const makeAllVisible = function () {
@@ -275,4 +310,5 @@ function send_secret() {
     document.getElementById('number_result').textContent = secret.nb_word;
 
     socket.emit('send_secret', secret);
+    document.getElementById("send_secret").disabled = true;
 }

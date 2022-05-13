@@ -11,6 +11,7 @@ let dico = require(wordPage);
 let gameWords = [];
 let type = [8, 8, 8, 1];
 let couleur = [];
+let readyPlayers = 0;
 /**
  * @type {Socket}
  */
@@ -43,6 +44,7 @@ let playername = [];
 io.on('connection', (socket) => {
     console.log(`[connection] ${socket.id}`);
 
+
     socket.on('playerData', (player) => {
         console.log(`[playerData] ${player.username}`);
         playername.push(player.username);
@@ -67,6 +69,7 @@ io.on('connection', (socket) => {
 
         io.to(socket.id).emit('join room', room.id);
 
+        
         socket.on('send_secret', (secret) => {
             console.log(secret);
             socket.broadcast.emit('actualize_secret', secret);
@@ -77,9 +80,13 @@ io.on('connection', (socket) => {
             socket.broadcast.emit('actualize_card', card);
         });
 
-        socket.on('send_role', (id, username) => {
+        socket.on('send_role', (id, username, clicked) => {
             socket.broadcast.emit('actualize_role', id, username);
-
+            if(clicked == 0) readyPlayers++
+            console.log(readyPlayers)
+            if(readyPlayers == 4){
+            socket.broadcast.emit('changeTeamTurn', 1)
+            }
         });
 
         if (room.players.length === 4) {
@@ -101,8 +108,12 @@ io.on('connection', (socket) => {
             console.table(couleur)
             io.to(room.id).emit('start game', room.players, gameWords, couleur);
 
+
         }
+
+
     });
+
 
     socket.on('get rooms', () => {
         io.to(socket.id).emit('list rooms', rooms);
@@ -124,6 +135,8 @@ io.on('connection', (socket) => {
 
 
 });
+
+
 
 function createRoom(player) {
     const room = { id: roomId(), players: [] };
