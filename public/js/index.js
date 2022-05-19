@@ -302,16 +302,17 @@ function reply_click(cardID) {
     if(scoreRouge == 0) winner(1)
     else if (scoreBleu == 0) winner(2)
     else if (couleur12[cardID] == 3) winner((player.team%2)+1)
-    
-    let secret_nb = document.getElementById('number_result').textContent
-    let nb = parseInt(secret_nb, 10)
-    if(carteRetournee == nb || player.team != couleur12[cardID]){
-        for (let i = 0; i < 25; i++) {
-            let GameP = document.getElementById(i);
-            GameP.disabled = true;
+    else{
+        let secret_nb = document.getElementById('number_result').textContent
+        let nb = parseInt(secret_nb, 10)
+        if(carteRetournee == nb || player.team != couleur12[cardID]){
+            for (let i = 0; i < 25; i++) {
+                let GameP = document.getElementById(i);
+                GameP.disabled = true;
+            }
+            carteRetournee = 0
+            socket.emit('changeTurn', (player.team%2)+1)
         }
-        carteRetournee = 0
-        socket.emit('changeTurn', (player.team%2)+1)
     }
 
 }
@@ -320,6 +321,10 @@ function winner(teamNumber){
     socket.emit("winner", teamNumber)
     if(player.team == teamNumber) alert("Vous avez gagnez !!")
     else alert("Bouuuuuh")
+    for (let i = 0; i < 25; i++) {
+        let GameP = document.getElementById(i);
+        GameP.disabled = true;
+    }
 }
 
 function isNumeric(value) {

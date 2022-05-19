@@ -8,8 +8,6 @@ const path = require('path');
 const port = 8080;
 const wordPage = __dirname + '/public/js/dico.json'
 let dico = require(wordPage);
-let gameWords = [];
-let type = [8, 8, 8, 1];
 let couleur = [];
 let readyPlayers = 0;
 /**
@@ -84,7 +82,7 @@ io.on('connection', (socket) => {
             socket.broadcast.emit('actualize_role', id, username);
             if(clicked == 0) readyPlayers++
             console.log(readyPlayers)
-            if(readyPlayers == 4){
+            if(readyPlayers%4 == 0 && readyPlayers != 0){
             socket.broadcast.emit('changeTeamTurn', 1)
             }
         });
@@ -98,21 +96,23 @@ io.on('connection', (socket) => {
         })
 
         if (room.players.length === 4) {
+            let type = [8, 9, 7, 1];
+            let randomType = ""
+            let gameWords = [];
+            let randomNumber = 0
+            let randomWord = ""
 
             for (let i = 0; i < 25; i++) {
-                let randomNumber = Math.floor(Math.random() * dico.length);
-                let randomWord = dico[randomNumber];
+                randomNumber = Math.floor(Math.random() * dico.length);
+                randomWord = dico[randomNumber];
                 gameWords.push(randomWord);
-            }
-            console.log(gameWords);
-            let randomType
-
-            for (let i = 0; i < 25; i++) {
                 randomType = Math.floor(Math.random() * 4)
+                
                 while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
                 couleur[i] = randomType
                 type[randomType]--
             }
+            console.log(gameWords)
             console.table(couleur)
             io.to(room.id).emit('start game', room.players, gameWords, couleur);
 
