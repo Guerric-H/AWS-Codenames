@@ -156,6 +156,11 @@ socket.on('changeTeamTurn', (teamNumber) => {
     spyTurn()
 });
 
+socket.on('winner', (teamNumber) => {
+    if(player.team == teamNumber) alert("Victoire")
+    else alert("Defaite")
+})
+
 function spyTurn(){
     if(player.role == 0 && player.turn == true){
         document.getElementById("send_secret").disabled = false;
@@ -294,7 +299,10 @@ function reply_click(cardID) {
     }
 
     socket.emit('pick_card', cardID);
-
+    if(scoreRouge == 0) winner(1)
+    else if (scoreBleu == 0) winner(2)
+    else if (couleur12[cardID] == 3) winner((player.team%2)+1)
+    
     let secret_nb = document.getElementById('number_result').textContent
     let nb = parseInt(secret_nb, 10)
     if(carteRetournee == nb || player.team != couleur12[cardID]){
@@ -306,6 +314,12 @@ function reply_click(cardID) {
         socket.emit('changeTurn', (player.team%2)+1)
     }
 
+}
+
+function winner(teamNumber){
+    socket.emit("winner", teamNumber)
+    if(player.team == teamNumber) alert("Vous avez gagnez !!")
+    else alert("Bouuuuuh")
 }
 
 function isNumeric(value) {
