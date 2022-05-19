@@ -251,7 +251,7 @@ const jointeam = function (id) {
     if (player.role == 0) {
         makeAllVisible();
     }
-    socket.emit('send_role', id, player.username, clicked);
+    socket.emit('send_role', id, player.username, clicked, player.roomId);
 }
 
 const makeAllVisible = function () {
@@ -298,7 +298,8 @@ function reply_click(cardID) {
         cd.setAttribute("class", "carteNoire")
     }
 
-    socket.emit('pick_card', cardID);
+    socket.emit('pick_card', cardID, player.roomId);
+    
     if(scoreRouge == 0) winner(1)
     else if (scoreBleu == 0) winner(2)
     else if (couleur12[cardID] == 3) winner((player.team%2)+1)
@@ -311,14 +312,14 @@ function reply_click(cardID) {
                 GameP.disabled = true;
             }
             carteRetournee = 0
-            socket.emit('changeTurn', (player.team%2)+1)
+            socket.emit('changeTurn', (player.team%2)+1, payer.roomId)
         }
     }
 
 }
 
 function winner(teamNumber){
-    socket.emit("winner", teamNumber)
+    socket.emit("winner", teamNumber, player.roomId)
     if(player.team == teamNumber) alert("Vous avez gagnez !!")
     else alert("Bouuuuuh")
     for (let i = 0; i < 25; i++) {
@@ -348,6 +349,6 @@ function send_secret() {
     document.getElementById('keyword_result').textContent = secret.word;
     document.getElementById('number_result').textContent = secret.nb_word;
 
-    socket.emit('send_secret', secret);
+    socket.emit('send_secret', secret, player.roomId);
     document.getElementById("send_secret").disabled = true;
 }

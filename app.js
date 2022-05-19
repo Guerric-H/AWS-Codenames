@@ -68,31 +68,31 @@ io.on('connection', (socket) => {
         io.to(socket.id).emit('join room', room.id);
 
         
-        socket.on('send_secret', (secret) => {
+        socket.on('send_secret', (secret, roomID) => {
             console.log(secret);
-            socket.broadcast.emit('actualize_secret', secret);
+            socket.to(roomID).emit('actualize_secret', secret);
         });
 
-        socket.on('pick_card', (card, color) => {
+        socket.on('pick_card', (card, roomID) => {
             console.log(card);
-            socket.broadcast.emit('actualize_card', card);
+            socket.to(roomID).emit('actualize_card', card);
         });
 
-        socket.on('send_role', (id, username, clicked) => {
-            socket.broadcast.emit('actualize_role', id, username);
+        socket.on('send_role', (id, username, clicked, roomID) => {
+            socket.to(roomID).emit('actualize_role', id, username);
             if(clicked == 0) readyPlayers++
             console.log(readyPlayers)
             if(readyPlayers%4 == 0 && readyPlayers != 0){
-            socket.broadcast.emit('changeTeamTurn', 1)
+            socket.to(roomID).emit('changeTeamTurn', 1)
             }
         });
 
-        socket.on('changeTurn', (teamNumber) => {
-            socket.broadcast.emit('changeTeamTurn', teamNumber)
+        socket.on('changeTurn', (teamNumber, roomID) => {
+            socket.to(roomID).emit('changeTeamTurn', teamNumber)
         })
 
-        socket.on('winner', (teamNumber) => {
-            socket.broadcast.emit('winner', (teamNumber))
+        socket.on('winner', (teamNumber, roomID) => {
+            socket.to(roomID).emit('winner', (teamNumber))
         })
 
         if (room.players.length === 4) {
