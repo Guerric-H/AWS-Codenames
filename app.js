@@ -89,6 +89,10 @@ io.on('connection', (socket) => {
             }
         });
 
+        socket.on('changeTurn', (teamNumber) => {
+            socket.broadcast.emit('changeTeamTurn', teamNumber)
+        })
+
         if (room.players.length === 4) {
 
             for (let i = 0; i < 25; i++) {

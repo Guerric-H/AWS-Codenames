@@ -115,7 +115,7 @@ socket.on('actualize_secret', (secret) => {
 
     document.getElementById('keyword_result').textContent = secret.word;
     document.getElementById('number_result').textContent = secret.nb_word;
-    agentTurn(secret.nb_word)
+    agentTurn()
 });
 
 socket.on('actualize_card', (cardID) => {
@@ -127,14 +127,12 @@ socket.on('actualize_card', (cardID) => {
         cd.setAttribute("class", "cartesRouge")
         scoreRouge--
         sr.innerHTML = scoreRouge
-        alert(scoreRouge)
     }
     else if (couleur12[cardID] == 2) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesBleu")
         scoreBleu--
         sb.innerHTML = scoreBleu
-        alert(scoreBleu)
     }
     else if (couleur12[cardID] == 3) {
         cd.removeAttribute("cartes")
@@ -164,7 +162,7 @@ function spyTurn(){
     }
 }
 
-function agentTurn(nb){
+function agentTurn(){
     if(player.role == 1 && player.turn == true){
         for (let i = 0; i < 25; i++) {
             let GameP = document.getElementById(i);
@@ -299,12 +297,13 @@ function reply_click(cardID) {
 
     let secret_nb = document.getElementById('number_result').textContent
     let nb = parseInt(secret_nb, 10)
-    if(carteRetournee == nb){
+    if(carteRetournee == nb || player.team != couleur12[cardID]){
         for (let i = 0; i < 25; i++) {
             let GameP = document.getElementById(i);
             GameP.disabled = true;
         }
         carteRetournee = 0
+        socket.emit('changeTurn', (player.team%2)+1)
     }
 
 }
