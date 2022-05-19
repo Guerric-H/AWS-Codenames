@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
             socket.broadcast.emit('actualize_secret', secret);
         });
 
-        socket.on('pick_card', (card) => {
+        socket.on('pick_card', (card, color) => {
             console.log(card);
             socket.broadcast.emit('actualize_card', card);
         });

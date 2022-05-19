@@ -38,6 +38,13 @@ const roomsList = document.getElementById('rooms-list');
 const turnMsg = document.getElementById('turn-message');
 const linkToShare = document.getElementById('link-to-share');
 
+let sr = document.getElementById('score_rouge');
+let sb = document.getElementById('score_bleu');
+let scoreRouge = 8;
+let scoreBleu = 8;
+
+let carteRetournee = 0;
+
 let ennemyUsername = "";
 let couleur12 = []
 
@@ -118,10 +125,16 @@ socket.on('actualize_card', (cardID) => {
     if (couleur12[cardID] == 1) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesRouge")
+        scoreRouge--
+        sr.innerHTML = scoreRouge
+        alert(scoreRouge)
     }
     else if (couleur12[cardID] == 2) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesBleu")
+        scoreBleu--
+        sb.innerHTML = scoreBleu
+        alert(scoreBleu)
     }
     else if (couleur12[cardID] == 3) {
         cd.removeAttribute("cartes")
@@ -156,13 +169,6 @@ function agentTurn(nb){
         for (let i = 0; i < 25; i++) {
             let GameP = document.getElementById(i);
             GameP.disabled = false;
-        }
-    }
-
-    if(nb == carteRetournee){
-        for (let i = 0; i < 25; i++) {
-            let GameP = document.getElementById(i);
-            GameP.disabled = true;
         }
     }
 }
@@ -270,14 +276,19 @@ function reply_click(cardID) {
 
     //Permet de récupérer l'élément via son ID propre
     let cd = document.getElementById(cardID)
+    carteRetournee++
     //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
     if (couleur12[cardID] == 1) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesRouge")
+        scoreRouge--
+        sr.innerHTML = scoreRouge
     }
     else if (couleur12[cardID] == 2) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesBleu")
+        scoreBleu--
+        sb.innerHTML = scoreBleu
     }
     else if (couleur12[cardID] == 3) {
         cd.removeAttribute("cartes")
@@ -285,6 +296,16 @@ function reply_click(cardID) {
     }
 
     socket.emit('pick_card', cardID);
+
+    let secret_nb = document.getElementById('number_result').textContent
+    let nb = parseInt(secret_nb, 10)
+    if(carteRetournee == nb){
+        for (let i = 0; i < 25; i++) {
+            let GameP = document.getElementById(i);
+            GameP.disabled = true;
+        }
+        carteRetournee = 0
+    }
 
 }
 
