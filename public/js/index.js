@@ -271,7 +271,7 @@ function reply_click(cardID) {
     let cd = document.getElementById(cardID)
     carteRetournee++
     //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
-    revealagent(cardID);
+    revealagent(cd);
     socket.emit('pick_card', cardID, player.roomId);
 
     if (scoreRouge == 0) winner(1)
