@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const path = require('path');
-const port = 8080;
+const port = process.env.port || 5000;
 const wordPage = __dirname + '/public/js/dico.json'
 let dico = require(wordPage);
 let couleur = [];
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
 
         io.to(socket.id).emit('join room', room.id);
 
-        
+
         socket.on('send_secret', (secret, roomID) => {
             console.log(secret);
             socket.to(roomID).emit('actualize_secret', secret);
@@ -80,10 +80,10 @@ io.on('connection', (socket) => {
 
         socket.on('send_role', (id, username, clicked, roomID) => {
             socket.to(roomID).emit('actualize_role', id, username);
-            if(clicked == 0) readyPlayers++
+            if (clicked == 0) readyPlayers++
             console.log(readyPlayers)
-            if(readyPlayers%4 == 0 && readyPlayers != 0){
-            socket.to(roomID).emit('changeTeamTurn', 1)
+            if (readyPlayers % 4 == 0 && readyPlayers != 0) {
+                socket.to(roomID).emit('changeTeamTurn', 1)
             }
         });
 
@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
                 randomWord = dico[randomNumber];
                 gameWords.push(randomWord);
                 randomType = Math.floor(Math.random() * 4)
-                
+
                 while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
                 couleur[i] = randomType
                 type[randomType]--
