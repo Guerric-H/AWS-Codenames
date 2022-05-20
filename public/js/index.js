@@ -147,28 +147,28 @@ socket.on('actualize_role', (id, username) => {
 });
 
 socket.on('changeTeamTurn', (teamNumber) => {
-    if(player.team == teamNumber){
+    if (player.team == teamNumber) {
         player.turn = true;
     }
-    else{
+    else {
         player.turn = false;
     }
     spyTurn()
 });
 
 socket.on('winner', (teamNumber) => {
-    if(player.team == teamNumber) alert("Victoire")
+    if (player.team == teamNumber) alert("Victoire")
     else alert("Defaite")
 })
 
-function spyTurn(){
-    if(player.role == 0 && player.turn == true){
+function spyTurn() {
+    if (player.role == 0 && player.turn == true) {
         document.getElementById("send_secret").disabled = false;
     }
 }
 
-function agentTurn(){
-    if(player.role == 1 && player.turn == true){
+function agentTurn() {
+    if (player.role == 1 && player.turn == true) {
         for (let i = 0; i < 25; i++) {
             let GameP = document.getElementById(i);
             GameP.disabled = false;
@@ -210,7 +210,7 @@ const joinRoom = function () {
 const jointeam = function (id) {
     let role = document.getElementById(id);
     let clicked = 0
-    if(player.team == 1 || player.team == 2) clicked = 1
+    if (player.team == 1 || player.team == 2) clicked = 1
 
     if (id == "espion-button1") {
         player.team = 1;
@@ -299,28 +299,28 @@ function reply_click(cardID) {
     }
 
     socket.emit('pick_card', cardID, player.roomId);
-    
-    if(scoreRouge == 0) winner(1)
+
+    if (scoreRouge == 0) winner(1)
     else if (scoreBleu == 0) winner(2)
-    else if (couleur12[cardID] == 3) winner((player.team%2)+1)
-    else{
+    else if (couleur12[cardID] == 3) winner((player.team % 2) + 1)
+    else {
         let secret_nb = document.getElementById('number_result').textContent
         let nb = parseInt(secret_nb, 10)
-        if(carteRetournee == nb || player.team != couleur12[cardID]){
+        if (carteRetournee == nb || player.team != couleur12[cardID]) {
             for (let i = 0; i < 25; i++) {
                 let GameP = document.getElementById(i);
                 GameP.disabled = true;
             }
             carteRetournee = 0
-            socket.emit('changeTurn', (player.team%2)+1, payer.roomId)
+            socket.emit('changeTurn', (player.team % 2) + 1, payer.roomId)
         }
     }
 
 }
 
-function winner(teamNumber){
+function winner(teamNumber) {
     socket.emit("winner", teamNumber, player.roomId)
-    if(player.team == teamNumber) alert("Vous avez gagnez !!")
+    if (player.team == teamNumber) alert("Vous avez gagnez !!")
     else alert("Bouuuuuh")
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);

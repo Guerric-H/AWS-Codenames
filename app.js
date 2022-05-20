@@ -18,7 +18,7 @@ let readyPlayers = 0;
 /**
  * @type {Socket}
  */
-const io = require('socket.io')(http);
+const io = require('socket.io')(server);
 
 app.use('/bootstrap/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/bootstrap/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
