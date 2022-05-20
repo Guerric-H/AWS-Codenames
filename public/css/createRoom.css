@@ -306,7 +306,7 @@ body {
   cursor: pointer;
 }
 
-.cartesNeutres {
+.revCartesNeutres {
   width: 95%;
   height: 95%;
   overflow: auto;

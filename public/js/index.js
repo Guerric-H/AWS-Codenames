@@ -346,24 +346,24 @@ function send_secret() {
 function revealagent(cardID) {
     if (couleur12[cardID] == 1) {
         cd.removeAttribute("cartes")
-        cd.setAttribute("class", "CartesRouge")
+        cd.setAttribute("class", "cartesRouge")
 
         scoreRouge--
         sr.innerHTML = scoreRouge
     }
     else if (couleur12[cardID] == 2) {
         cd.removeAttribute("cartes")
-        cd.setAttribute("class", "CartesBleu")
+        cd.setAttribute("class", "cartesBleu")
         scoreBleu--
         sb.innerHTML = scoreBleu
     }
     else if (couleur12[cardID] == 3) {
         cd.removeAttribute("cartes")
-        cd.setAttribute("class", "CarteNoire")
+        cd.setAttribute("class", "carteNoire")
     }
     else if (couleur12[cardID] == 0) {
         cd.removeAttribute("cartes")
-        cd.setAttribute("class", "CartesNeutres")
+        cd.setAttribute("class", "revCartesNeutres")
     }
 }
 
@@ -387,6 +387,6 @@ function revealspy(cardID) {
     }
     else if (couleur12[cardID] == 0) {
         cd.removeAttribute("cartes")
-        cd.setAttribute("class", "CartesNeutres")
+        cd.setAttribute("class", "revCartesNeutres")
     }
 }
