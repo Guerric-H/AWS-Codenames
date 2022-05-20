@@ -1,11 +1,16 @@
 const { Socket } = require('socket.io');
-
 const express = require('express');
-
 const app = express();
-const http = require('http').createServer(app);
-const path = require('path');
 const port = process.env.port || 5000;
+
+const http = require('http');
+const server = http.createServer(app);
+
+server.listen(port, () => {
+    console.log(`Listening on http://localhost:${port}/`);
+});
+
+const path = require('path');
 const wordPage = __dirname + '/public/js/dico.json'
 let dico = require(wordPage);
 let couleur = [];
@@ -20,6 +25,7 @@ app.use('/bootstrap/js', express.static(path.join(__dirname, 'node_modules/boots
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use(express.static('public'));
 
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'templates/accueil.html'));
 });
@@ -30,11 +36,6 @@ app.get('/games/createRoom', (req, res) => {
 app.get('/words', (req, res) => {
     res.sendFile(__dirname + '/public/assets/scripts/words.js')
 })
-
-
-http.listen(port, () => {
-    console.log(`Listening on http://localhost:${port}/`);
-});
 
 let rooms = [];
 let playername = [];
