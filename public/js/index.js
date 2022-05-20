@@ -122,21 +122,11 @@ socket.on('actualize_card', (cardID) => {
 
     let cd = document.getElementById(cardID)
 
-    if (couleur12[cardID] == 1) {
-        cd.removeAttribute("cartes")
-        cd.setAttribute("class", "cartesRouge")
-        scoreRouge--
-        sr.innerHTML = scoreRouge
+    if (player.role == 0) {
+        revealspy(cardID);
     }
-    else if (couleur12[cardID] == 2) {
-        cd.removeAttribute("cartes")
-        cd.setAttribute("class", "cartesBleu")
-        scoreBleu--
-        sb.innerHTML = scoreBleu
-    }
-    else if (couleur12[cardID] == 3) {
-        cd.removeAttribute("cartes")
-        cd.setAttribute("class", "carteNoire")
+    if (player.role == 1) {
+        revealagent(cardID);
     }
 });
 
@@ -312,7 +302,7 @@ function reply_click(cardID) {
                 GameP.disabled = true;
             }
             carteRetournee = 0
-            socket.emit('changeTurn', (player.team % 2) + 1, payer.roomId)
+            socket.emit('changeTurn', (player.team % 2) + 1, player.roomId)
         }
     }
 
@@ -351,4 +341,52 @@ function send_secret() {
 
     socket.emit('send_secret', secret, player.roomId);
     document.getElementById("send_secret").disabled = true;
+}
+
+function revealagent(cardID) {
+    if (couleur12[cardID] == 1) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "CartesRouge")
+
+        scoreRouge--
+        sr.innerHTML = scoreRouge
+    }
+    else if (couleur12[cardID] == 2) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "CartesBleu")
+        scoreBleu--
+        sb.innerHTML = scoreBleu
+    }
+    else if (couleur12[cardID] == 3) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "CarteNoire")
+    }
+    else if (couleur12[cardID] == 0) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "CartesNeutres")
+    }
+}
+
+function revealspy(cardID) {
+    if (couleur12[cardID] == 1) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "revCartesRouge")
+
+        scoreRouge--
+        sr.innerHTML = scoreRouge
+    }
+    else if (couleur12[cardID] == 2) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "revCartesBleu")
+        scoreBleu--
+        sb.innerHTML = scoreBleu
+    }
+    else if (couleur12[cardID] == 3) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "revCarteNoire")
+    }
+    else if (couleur12[cardID] == 0) {
+        cd.removeAttribute("cartes")
+        cd.setAttribute("class", "CartesNeutres")
+    }
 }

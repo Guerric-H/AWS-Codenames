@@ -112,6 +112,7 @@ body {
 .score1 {
   display: grid;
   grid-column: 1/2;
+  color: #fff;
   background-color: darkred;
   border: 30px solid darkred;
 }
@@ -119,6 +120,7 @@ body {
 .score2 {
   display: grid;
   grid-column: 3/4;
+  color: #fff;
   background-color: darkblue;
   border: 30px solid darkblue;
 }
@@ -244,12 +246,36 @@ body {
   cursor: pointer;
 }
 
+.revCartesRouge {
+  width: 95%;
+  height: 95%;
+  overflow: auto;
+  border-radius: 10%;
+  background-color: lightcoral;
+  border: 3px solid #a13434;
+  font-size: large;
+  color: black;
+  cursor: pointer;
+}
+
 .cartesBleu {
   width: 95%;
   height: 95%;
   overflow: auto;
   border-radius: 10%;
   background-color: rgb(85, 139, 201);
+  border: 3px solid #3448a1;
+  font-size: large;
+  color: black;
+  cursor: pointer;
+}
+
+.revCartesBleu {
+  width: 95%;
+  height: 95%;
+  overflow: auto;
+  border-radius: 10%;
+  background-color: lightblue;
   border: 3px solid #3448a1;
   font-size: large;
   color: black;
@@ -264,14 +290,44 @@ body {
   background-color: rgb(41, 43, 44);
   border: 3px solid #121213;
   font-size: large;
+  color: white;
+  cursor: pointer;
+}
+
+.revCarteNoire {
+  width: 95%;
+  height: 95%;
+  overflow: auto;
+  border-radius: 10%;
+  background-color: black;
+  border: 3px solid #121213;
+  font-size: large;
+  color: white;
+  cursor: pointer;
+}
+
+.cartesNeutres {
+  width: 95%;
+  height: 95%;
+  overflow: auto;
+  border-radius: 10%;
+  background-color: gray;
+  ;
+  border: 3px solid black;
+  font-size: large;
   color: black;
   cursor: pointer;
 }
 
 .cartes:hover,
-.indices input:hover {
+.carteNoire:hover,
+.cartesBleu:hover,
+.cartesRouge:hover,
+.cartesNeutres:hover,
+.indices input:hover,
+.indices button:hover {
+  background-color: white;
   color: black;
-  background-color: whitesmoke;
 }
 
 .indices input {
@@ -283,9 +339,4 @@ body {
 .indices button {
   width: 100%;
   height: 100%;
-}
-
-.indices button:hover {
-  background-color: gray;
-  color: whitesmoke;
 }
