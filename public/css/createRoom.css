@@ -311,9 +311,9 @@ body {
   height: 95%;
   overflow: auto;
   border-radius: 10%;
-  background-color: gray;
+  background-color: white;
   ;
-  border: 3px solid black;
+  border: 3px solid gray;
   font-size: large;
   color: black;
   cursor: pointer;
@@ -323,7 +323,10 @@ body {
 .carteNoire:hover,
 .cartesBleu:hover,
 .cartesRouge:hover,
-.cartesNeutres:hover,
+.revCartesNeutres:hover,
+.revCartesBleu:hover,
+.revCartesRouge:hover,
+.revCarteNoire:hover,
 .indices input:hover,
 .indices button:hover {
   background-color: white;

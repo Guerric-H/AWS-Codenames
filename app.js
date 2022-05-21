@@ -70,16 +70,16 @@ io.on('connection', (socket) => {
 
         socket.on('send_secret', (secret, roomID) => {
             console.log(secret);
-            socket.to(roomID).emit('actualize_secret', secret);
+            io.to(roomID).emit('actualize_secret', secret);
         });
 
         socket.on('pick_card', (card, roomID) => {
             console.log(card);
-            socket.to(roomID).emit('actualize_card', card);
+            io.to(roomID).emit('actualize_card', card);
         });
 
         socket.on('send_role', (id, username, clicked, roomID) => {
-            socket.to(roomID).emit('actualize_role', id, username);
+            io.to(roomID).emit('actualize_role', id, username);
             if (clicked == 0) room.nb_player++;
             console.log(room.nb_player)
             if (room.nb_player == 4) {
@@ -88,11 +88,11 @@ io.on('connection', (socket) => {
         });
 
         socket.on('changeTurn', (teamNumber, roomID) => {
-            socket.to(roomID).emit('changeTeamTurn', teamNumber)
+            io.to(roomID).emit('changeTeamTurn', teamNumber)
         })
 
         socket.on('winner', (teamNumber, roomID) => {
-            socket.to(roomID).emit('winner', (teamNumber))
+            io.to(roomID).emit('winner', (teamNumber))
         })
 
         if (room.players.length === 4) {
