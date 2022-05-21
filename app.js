@@ -14,7 +14,6 @@ const path = require('path');
 const wordPage = __dirname + '/public/js/dico.json'
 let dico = require(wordPage);
 let couleur = [];
-let readyPlayers = 0;
 /**
  * @type {Socket}
  */
@@ -49,6 +48,7 @@ io.on('connection', (socket) => {
         playername.push(player.username);
         console.log(playername);
         let room = null;
+        let readyPlayers = 0
 
         if (!player.roomId) {
             room = createRoom(player);
@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
             socket.to(roomID).emit('actualize_role', id, username);
             if (clicked == 0) readyPlayers++
             console.log(readyPlayers)
-            if (readyPlayers % 4 == 0 && readyPlayers != 0) {
+            if (readyPlayers == 4) {
                 socket.to(roomID).emit('changeTeamTurn', 1)
             }
         });
@@ -97,15 +97,17 @@ io.on('connection', (socket) => {
         })
 
         if (room.players.length === 4) {
-            let type = [8, 9, 7, 1];
+            let type = [8, 9, 7, 1]
             let randomType = ""
             let gameWords = [];
             let randomNumber = 0
             let randomWord = ""
 
             for (let i = 0; i < 25; i++) {
-                randomNumber = Math.floor(Math.random() * dico.length);
-                randomWord = dico[randomNumber];
+                while (randomWord == gameWords.find(randomWord)) {
+                    randomNumber = Math.floor(Math.random() * dico.length);
+                    randomWord = dico[randomNumber];
+                }
                 gameWords.push(randomWord);
                 randomType = Math.floor(Math.random() * 4)
 
