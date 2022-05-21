@@ -40,13 +40,14 @@ const linkToShare = document.getElementById('link-to-share');
 
 let sr = document.getElementById('score_rouge');
 let sb = document.getElementById('score_bleu');
-let scoreRouge = 8;
-let scoreBleu = 8;
 
+let scoreRouge = 9;
+let scoreBleu = 8;
 let carteRetournee = 0;
 
 let ennemyUsername = "";
 let couleur_cartes = []
+let clicked_cartes = []
 
 socket.emit('get rooms');
 socket.on('list rooms', (rooms) => {
@@ -119,9 +120,7 @@ socket.on('actualize_secret', (secret) => {
 });
 
 socket.on('actualize_card', (cardID) => {
-
-    let cd = document.getElementById(cardID)
-    cd.disabled = true;
+    document.getElementById(cardID).disabled = true;
     if (player.role == 0) {
         revealspy(cardID);
     }
@@ -255,7 +254,8 @@ const makeAllVisible = function () {
 }
 
 function reply_click(cardID) {
-
+    //On ajoute la carte à celles selectionnées
+    clicked_cartes.push(cardID);
     document.getElementById(cardID).disabled = true;
     //Permet de récupérer l'élément via son ID propre
     carteRetournee++
@@ -339,6 +339,7 @@ function revealagent(cardID) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
+    cd.disabled = true;
 }
 
 function revealspy(cardID) {
@@ -364,6 +365,7 @@ function revealspy(cardID) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
+    cd.disabled = true;
 }
 
 function disable_roles_buttons() {
@@ -383,6 +385,7 @@ function disable_cards() {
 function enable_cards() {
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);
-        GameP.disabled = false;
+        if (clicked_cartes.indexOf(i) == -1)
+            GameP.disabled = false;
     }
 }
