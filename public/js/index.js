@@ -167,9 +167,10 @@ function agentTurn() {
 function startGame(gameWords, couleur) {
 
     let lobby1 = document.getElementById('lobbygame');
-    let crt = document.getElementById('tohide')
+    let container = document.getElementById('to_remove')
     lobby1.style.visibility = "visible";
-    crt.style.visibility = "hidden";
+    container.remove();
+    // crt.style.visibility = "hidden";
 
 
     for (let i = 0; i < 25; i++) {
