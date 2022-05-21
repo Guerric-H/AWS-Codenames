@@ -259,7 +259,6 @@ function reply_click(cardID) {
     //Permet de récupérer l'élément via son ID propre
     carteRetournee++
     //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
-    revealagent(cardID);
     socket.emit('pick_card', cardID, player.roomId);
 
     if (scoreRouge == 0) winner(1)
