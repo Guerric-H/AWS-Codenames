@@ -214,18 +214,14 @@ const jointeam = function (id) {
     } else if (id == "agent-button1") {
         player.team = 1
         player.role = 1
-
-        console.log("test_agent1");
         document.getElementById("removal_agent").remove();
-        console.log("test_agent1_removal?");
+
 
     } else if (id == "agent-button2") {
         player.team = 2
         player.role = 1
-
-        console.log("test_agent2");
         document.getElementById("removal_agent").remove();
-        console.log("test_agent2_removal?");
+
 
     }
     else console.log("error joinTeam")
