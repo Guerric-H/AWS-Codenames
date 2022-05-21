@@ -160,7 +160,7 @@ function spyTurn() {
 
 function agentTurn() {
     if (player.role == 1 && player.turn == true) {
-        disable_cards();
+        enable_cards();
     }
 }
 
@@ -368,6 +368,13 @@ function disable_roles_buttons() {
 }
 
 function disable_cards() {
+    for (let i = 0; i < 25; i++) {
+        let GameP = document.getElementById(i);
+        GameP.disabled = true;
+    }
+}
+
+function enable_cards() {
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);
         GameP.disabled = false;
