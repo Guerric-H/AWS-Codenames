@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
         })
 
         socket.on('quit', roomID => {
-
+            io.to(roomID).emit('eject')
         })
 
 
@@ -160,6 +160,7 @@ io.on('connection', (socket) => {
                 if (p.socketId === socket.id && p.host) {
                     room = r;
                     rooms = rooms.filter(r => r !== room);
+
                 }
             })
         })

@@ -10,6 +10,11 @@ const player = {
 
 };
 
+//If user close tab, will trigger this function and event
+window.onbeforeunload = function () {
+    disconnect();
+};
+
 const socket = io();
 
 const queryString = window.location.search;
@@ -177,6 +182,11 @@ socket.on('makeLobbyVisible', () => {
     updateVisibility();
 })
 
+socket.on('eject', () => {
+    window.alert("Un joueur à quitté, vous serez redirigé à la liste des salons dans 10 secondes.")
+    setTimeout(function () { window.location.reload() }, 10000)
+})
+
 function updateVisibility() {
     let lobby = document.getElementById('lobbygame');
     let container = document.getElementById('to_remove');
@@ -208,7 +218,7 @@ function startGame(gameWords) {
     InputButton.disabled = true;
 }
 
-const joinRoom = function () {
+function joinRoom() {
     if (usernameInput.value !== "") {
         player.username = usernameInput.value;
         player.socketId = socket.id;
@@ -222,7 +232,7 @@ const joinRoom = function () {
         roomsCard.classList.add('d-none');
     }
 }
-const jointeam = function (id) {
+function jointeam(id) {
     let role = document.getElementById(id);
     let visible_submit = document.getElementById("removal_agent");
 
@@ -259,7 +269,7 @@ const jointeam = function (id) {
     socket.emit('send_role', id, player.username, player.roomId);
 }
 
-const makeAllVisible = function () {
+function makeAllVisible() {
 
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);
@@ -426,7 +436,7 @@ function replay() {
 }
 
 function disconnect() {
-    socket.emit("quit", player.roomId);
+    socket.emit('quit', player.roomId);
 }
 
 function initGame() {
