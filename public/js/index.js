@@ -46,7 +46,7 @@ let scoreBleu = 8;
 let carteRetournee = 0;
 
 let ennemyUsername = "";
-let couleur12 = []
+let couleur_cartes = []
 
 socket.emit('get rooms');
 socket.on('list rooms', (rooms) => {
@@ -104,7 +104,7 @@ socket.on('join room', (roomId) => {
 
 socket.on('start game', (players, gameWords, couleur) => {
     startGame(gameWords);
-    couleur12 = couleur;
+    couleur_cartes = couleur;
 });
 
 socket.on('actualize_secret', (secret) => {
@@ -121,7 +121,7 @@ socket.on('actualize_secret', (secret) => {
 socket.on('actualize_card', (cardID) => {
 
     let cd = document.getElementById(cardID)
-
+    cd.disabled = true;
     if (player.role == 0) {
         revealspy(cardID);
     }
@@ -238,15 +238,15 @@ const makeAllVisible = function () {
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);
         GameP.disabled = false;
-        if (couleur12[i] == 1) {
+        if (couleur_cartes[i] == 1) {
             GameP.removeAttribute("cartes")
             GameP.setAttribute("class", "cartesRouge")
         }
-        if (couleur12[i] == 2) {
+        if (couleur_cartes[i] == 2) {
             GameP.removeAttribute("cartes")
             GameP.setAttribute("class", "cartesBleu")
         }
-        if (couleur12[i] == 3) {
+        if (couleur_cartes[i] == 3) {
             GameP.removeAttribute("cartes")
             GameP.setAttribute("class", "carteNoire")
         }
@@ -256,6 +256,7 @@ const makeAllVisible = function () {
 
 function reply_click(cardID) {
 
+    document.getElementById(cardID).disabled = true;
     //Permet de récupérer l'élément via son ID propre
     carteRetournee++
     //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
@@ -263,11 +264,11 @@ function reply_click(cardID) {
 
     if (scoreRouge == 0) winner(1)
     else if (scoreBleu == 0) winner(2)
-    else if (couleur12[cardID] == 3) winner((player.team % 2) + 1)
+    else if (couleur_cartes[cardID] == 3) winner((player.team % 2) + 1)
     else {
         let secret_nb = document.getElementById('number_result').textContent
         let nb = parseInt(secret_nb, 10)
-        if (carteRetournee == nb || player.team != couleur12[cardID]) {
+        if (carteRetournee == nb || player.team != couleur_cartes[cardID]) {
             for (let i = 0; i < 25; i++) {
                 let GameP = document.getElementById(i);
                 GameP.disabled = true;
@@ -317,24 +318,24 @@ function send_secret() {
 function revealagent(cardID) {
     let cd = document.getElementById(cardID)
 
-    if (couleur12[cardID] == 1) {
+    if (couleur_cartes[cardID] == 1) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesRouge")
 
         scoreRouge--
         sr.innerHTML = scoreRouge
     }
-    else if (couleur12[cardID] == 2) {
+    else if (couleur_cartes[cardID] == 2) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "cartesBleu")
         scoreBleu--
         sb.innerHTML = scoreBleu
     }
-    else if (couleur12[cardID] == 3) {
+    else if (couleur_cartes[cardID] == 3) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "carteNoire")
     }
-    else if (couleur12[cardID] == 0) {
+    else if (couleur_cartes[cardID] == 0) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
@@ -342,24 +343,24 @@ function revealagent(cardID) {
 
 function revealspy(cardID) {
     let cd = document.getElementById(cardID)
-    if (couleur12[cardID] == 1) {
+    if (couleur_cartes[cardID] == 1) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesRouge")
 
         scoreRouge--
         sr.innerHTML = scoreRouge
     }
-    else if (couleur12[cardID] == 2) {
+    else if (couleur_cartes[cardID] == 2) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesBleu")
         scoreBleu--
         sb.innerHTML = scoreBleu
     }
-    else if (couleur12[cardID] == 3) {
+    else if (couleur_cartes[cardID] == 3) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCarteNoire")
     }
-    else if (couleur12[cardID] == 0) {
+    else if (couleur_cartes[cardID] == 0) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
