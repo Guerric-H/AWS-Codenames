@@ -27,12 +27,12 @@
                         <form method="POST" id="form">
                             <div class="mb-3">
                                 <h1 class="h1">Codenames</h1>
-                                <label for="username" class="form-label">To enter the room choose a nickname</label>
+                                <label for="username" class="form-label">Veuillez choisir un pseudonyme</label>
                                 <div class="inputbox">
                                     <input type="text" class="form-control" id="username" minlength="2" maxlength="20"
                                         placeholder="Enter your Nickname" required>
                                 </div>
-                                <button class="btn btn-primary" id="start" type="submit">Create Room</button>
+                                <button class="btn btn-primary" id="start" type="submit">Créer un salon</button>
                             </div>
                         </form>
 
@@ -49,14 +49,14 @@
                             <div class="card-header">En attente d'un autre joueur</div>
                             <div class="card-body mx-auto">
                                 <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Loading...</span>
+                                    <span class="visually-hidden">Chargement...</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-body text-center">
-                                Partage ce lien pour inviter quelqu'un à jouer avec toi
+                                Lien de partage :
                                 <span id="link-to-share"></span>
                             </div>
                         </div>
@@ -157,7 +157,6 @@
         </div>
 
         <div class="popup" id="popup">
-            
         </div>
 
         <div class=" plateau">

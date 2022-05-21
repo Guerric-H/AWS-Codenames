@@ -94,6 +94,7 @@ io.on('connection', (socket) => {
 
         socket.on('winner', (teamNumber, roomID) => {
             io.to(roomID).emit('winner', (teamNumber))
+            room.players.length = 0;
         })
 
         socket.on('replay', (roomID) => {
@@ -112,9 +113,9 @@ io.on('connection', (socket) => {
         })
 
         if (room.players.length === 4) {
-            io.to(room.id).emit('makeLobbyVisible')
 
-            let type = [8, 9, 7, 1]
+            io.to(room.id).emit('makeLobbyVisible')
+            let type = [7, 9, 8, 1]
             let randomType = ""
             let gameWords = [];
             let randomNumber = 0
