@@ -211,14 +211,12 @@ const jointeam = function (id) {
     } else if (id == "agent-button1") {
         player.team = 1
         player.role = 1
-        // let remove_input = document.getElementsByClassName("indices");
-        // remove_input.remove();
+        remove_input.remove(document.getElementsByClassName("indices"));
 
     } else if (id == "agent-button2") {
         player.team = 2
         player.role = 1
-        // let remove_input = document.getElementsByClassName("indices");
-        // remove_input.remove();
+        remove_input.remove(document.getElementsByClassName("indices"));
     }
     else console.log("error joinTeam")
     console.log(player.username + player.role + player.team)
