@@ -118,7 +118,7 @@ io.on('connection', (socket) => {
             }
             console.log(gameWords)
             console.table(couleur)
-            io.to(room.id).emit('start game', room.players, gameWords, couleur);
+            io.to(room.id).emit('start game', gameWords, couleur);
 
 
         }

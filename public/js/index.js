@@ -103,7 +103,7 @@ socket.on('join room', (roomId) => {
 });
 
 
-socket.on('start game', (players, gameWords, couleur) => {
+socket.on('start game', (gameWords, couleur) => {
     startGame(gameWords);
     couleur_cartes = couleur;
 });
@@ -169,11 +169,11 @@ function agentTurn() {
     }
 }
 
-function startGame(gameWords, couleur) {
+function startGame(gameWords) {
 
-    let lobby1 = document.getElementById('lobbygame');
+    let lobby = document.getElementById('lobbygame');
     let container = document.getElementById('to_remove')
-    lobby1.style.visibility = "visible";
+    lobby.style.visibility = "visible";
     container.remove();
 
 
@@ -202,25 +202,28 @@ const joinRoom = function () {
 }
 const jointeam = function (id) {
     let role = document.getElementById(id);
+    let visible_submit = document.getElementById("removal_agent");
 
     if (id == "espion-button1") {
         player.team = 1;
         player.role = 0;
+        visible_submit.hidden = false;
 
     } else if (id == "espion-button2") {
         player.team = 2;
         player.role = 0;
+        visible_submit.hidden = false;
 
     } else if (id == "agent-button1") {
         player.team = 1
         player.role = 1
-        document.getElementById("removal_agent").remove();
+        visible_submit.hidden = true;
 
 
     } else if (id == "agent-button2") {
         player.team = 2
         player.role = 1
-        document.getElementById("removal_agent").remove();
+        visible_submit.hidden = true;
 
 
     }
@@ -238,7 +241,6 @@ const makeAllVisible = function () {
 
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);
-        GameP.disabled = false;
         if (couleur_cartes[i] == 1) {
             GameP.removeAttribute("cartes")
             GameP.setAttribute("class", "cartesRouge")
