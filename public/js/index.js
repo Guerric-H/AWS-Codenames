@@ -40,7 +40,7 @@ const linkToShare = document.getElementById('link-to-share');
 
 let sr = document.getElementById('score_rouge');
 let sb = document.getElementById('score_bleu');
-let scoreRouge = 8;
+let scoreRouge = 9;
 let scoreBleu = 8;
 
 let carteRetournee = 0;
@@ -148,8 +148,14 @@ socket.on('changeTeamTurn', (teamNumber) => {
 });
 
 socket.on('winner', (teamNumber) => {
-    if (player.team == teamNumber) alert("Victoire")
-    else alert("Defaite")
+    let p = document.getElementById("popup").style.visibility = 'visible';
+    let cd = document.getElementById("winner")
+    if (player.team == teamNumber) {
+        cd.innerHTML = "Vous avez gagné !"
+    }
+    else{
+        cd.innerHTML = "Vous avez perdu !"
+    }
 })
 
 function spyTurn() {
@@ -282,8 +288,6 @@ function reply_click(cardID) {
 
 function winner(teamNumber) {
     socket.emit("winner", teamNumber, player.roomId)
-    if (player.team == teamNumber) alert("Vous avez gagnez !!")
-    else alert("Bouuuuuh")
     for (let i = 0; i < 25; i++) {
         let GameP = document.getElementById(i);
         GameP.disabled = true;
