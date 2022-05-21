@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
         })
 
         if (room.players.length === 4) {
-            let type = [8, 9, 7, 1]
+            let type = [7, 9, 8, 1]
             let randomType = ""
             let gameWords = [];
             let randomNumber = 0
