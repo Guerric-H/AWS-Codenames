@@ -120,13 +120,13 @@ socket.on('actualize_secret', (secret) => {
 });
 
 socket.on('actualize_card', (cardID) => {
-    document.getElementById(cardID).disabled = true;
     if (player.role == 0) {
         revealspy(cardID);
     }
     if (player.role == 1) {
         revealagent(cardID);
     }
+    check_winner();
 });
 
 socket.on('actualize_role', (id, username) => {
@@ -261,21 +261,18 @@ function reply_click(cardID) {
     //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
     socket.emit('pick_card', cardID, player.roomId);
 
-    if (scoreRouge == 0) winner(1)
-    else if (scoreBleu == 0) winner(2)
-    else if (couleur_cartes[cardID] == 3) winner((player.team % 2) + 1)
-    else {
-        let secret_nb = document.getElementById('number_result').textContent
-        let nb = parseInt(secret_nb, 10)
-        if (carteRetournee == nb || player.team != couleur_cartes[cardID]) {
-            for (let i = 0; i < 25; i++) {
-                let GameP = document.getElementById(i);
-                GameP.disabled = true;
-            }
-            carteRetournee = 0
-            socket.emit('changeTurn', (player.team % 2) + 1, player.roomId)
+
+    let secret_nb = document.getElementById('number_result').textContent
+    let nb = parseInt(secret_nb, 10)
+    if (carteRetournee == nb || player.team != couleur_cartes[cardID]) {
+        for (let i = 0; i < 25; i++) {
+            let GameP = document.getElementById(i);
+            GameP.disabled = true;
         }
+        carteRetournee = 0
+        socket.emit('changeTurn', (player.team % 2) + 1, player.roomId)
     }
+
 
 }
 
@@ -311,7 +308,8 @@ function send_secret() {
 
 function revealagent(cardID) {
     clicked_cartes.push(cardID);
-    let cd = document.getElementById(cardID)
+    let cd = document.getElementById(cardID);
+    cd.disabled = true;
 
     if (couleur_cartes[cardID] == 1) {
         cd.removeAttribute("cartes")
@@ -334,7 +332,6 @@ function revealagent(cardID) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
-    cd.disabled = true;
 }
 
 function revealspy(cardID) {
@@ -360,7 +357,6 @@ function revealspy(cardID) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
-    cd.disabled = true;
 }
 
 function disable_roles_buttons() {
@@ -379,10 +375,19 @@ function disable_cards() {
 
 function enable_cards() {
     for (let i = 0; i < 25; i++) {
-        if (clicked_cartes.indexOf(i) == -1) {
-            let GameP = document.getElementById(i);
-            GameP.disabled = false;
-        }
+        let GameP = document.getElementById(i);
+        GameP.disabled = false;
 
     }
+
+    for (let i = 0; i < clicked_cartes.length; i++) {
+        let GameP = document.getElementById(clicked_cartes[i]);
+        GameP.disabled = true;
+    }
+}
+
+function check_winner() {
+    if (scoreRouge == 0) winner(1)
+    else if (scoreBleu == 0) winner(2)
+    else if (couleur_cartes[cardID] == 3) winner((player.team % 2) + 1)
 }

@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
 
         socket.on('winner', (teamNumber, roomID) => {
             io.to(roomID).emit('winner', (teamNumber))
-            room.player.length = 0;
+            room.players.length = 0;
         })
 
         if (room.players.length === 4) {
