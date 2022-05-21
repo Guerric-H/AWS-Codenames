@@ -147,8 +147,14 @@ socket.on('changeTeamTurn', (teamNumber) => {
 });
 
 socket.on('winner', (teamNumber) => {
-    if (player.team == teamNumber) alert("Victoire")
-    else alert("Defaite")
+    let p = document.getElementById("popup").style.visibility = 'visible';
+    let cd = document.getElementById("winner")
+    if (player.team == teamNumber) {
+        cd.innerHTML = "Vous avez gagné !"
+    }
+    else {
+        cd.innerHTML = "Vous avez perdu !"
+    }
 })
 
 function spyTurn() {
