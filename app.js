@@ -38,7 +38,6 @@ app.get('/words', (req, res) => {
 
 let rooms = [];
 let playername = [];
-
 io.on('connection', (socket) => {
     console.log(`[connection] ${socket.id}`);
 
@@ -48,7 +47,7 @@ io.on('connection', (socket) => {
         playername.push(player.username);
         console.log(playername);
         let room = null;
-        let readyPlayers = 0
+
 
         if (!player.roomId) {
             room = createRoom(player);
@@ -81,10 +80,10 @@ io.on('connection', (socket) => {
 
         socket.on('send_role', (id, username, clicked, roomID) => {
             socket.to(roomID).emit('actualize_role', id, username);
-            if (clicked == 0) readyPlayers++
-            console.log(readyPlayers)
-            if (readyPlayers == 4) {
-                socket.to(roomID).emit('changeTeamTurn', 1)
+            if (clicked == 0) room.nb_player++;
+            console.log(room.nb_player)
+            if (room.nb_player == 4) {
+                io.to(roomID).emit('changeTeamTurn', 1);
             }
         });
 
@@ -101,13 +100,14 @@ io.on('connection', (socket) => {
             let randomType = ""
             let gameWords = [];
             let randomNumber = 0
-            let randomWord = ""
+            let randomWord = "not_valid"
 
             for (let i = 0; i < 25; i++) {
-                while (randomWord == gameWords.find(randomWord)) {
+                do {
                     randomNumber = Math.floor(Math.random() * dico.length);
                     randomWord = dico[randomNumber];
-                }
+                } while (gameWords.indexOf(randomWord) != -1);
+
                 gameWords.push(randomWord);
                 randomType = Math.floor(Math.random() * 4)
 
@@ -150,7 +150,7 @@ io.on('connection', (socket) => {
 
 
 function createRoom(player) {
-    const room = { id: roomId(), players: [] };
+    const room = { id: roomId(), players: [], nb_player: 0 };
 
     player.roomId = room.id;
 
