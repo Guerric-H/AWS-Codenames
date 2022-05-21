@@ -83,6 +83,7 @@ io.on('connection', (socket) => {
             room.nb_player++;
             console.log(room.nb_player)
             if (room.nb_player == 4) {
+                room.nb_player = 0
                 io.to(roomID).emit('changeTeamTurn', 1);
             }
         });
@@ -95,7 +96,24 @@ io.on('connection', (socket) => {
             io.to(roomID).emit('winner', (teamNumber))
         })
 
+        socket.on('replay', (roomID) => {
+            room.nb_player++
+            console.log(room.nb_player)
+            io.to(roomID).emit('replay', (room.nb_player))
+            if(room.nb_player == 4){
+                room.nb_player = 0
+                initGame(room)
+                io.to(roomID).emit('initGame')
+            }
+        })
+
+        socket.on('quit', (roomID) => {
+            
+        })
+
         if (room.players.length === 4) {
+            io.to(room.id).emit('makeLobbyVisible')
+
             let type = [8, 9, 7, 1]
             let randomType = ""
             let gameWords = [];
@@ -162,4 +180,29 @@ function createRoom(player) {
 
 function roomId() {
     return Math.random().toString(36).substring(2, 9);
+}
+
+function initGame(room){
+    let type = [8, 9, 7, 1]
+            let randomType = ""
+            let gameWords = [];
+            let randomNumber = 0
+            let randomWord = "not_valid"
+
+            for (let i = 0; i < 25; i++) {
+                do {
+                    randomNumber = Math.floor(Math.random() * dico.length);
+                    randomWord = dico[randomNumber];
+                } while (gameWords.indexOf(randomWord) != -1);
+
+                gameWords.push(randomWord);
+                randomType = Math.floor(Math.random() * 4)
+
+                while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
+                couleur[i] = randomType
+                type[randomType]--
+            }
+            console.log(gameWords)
+            console.table(couleur)
+            io.to(room.id).emit('start game', room.players, gameWords, couleur);
 }

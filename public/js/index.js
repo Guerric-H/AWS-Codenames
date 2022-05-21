@@ -103,8 +103,9 @@ socket.on('join room', (roomId) => {
 
 
 socket.on('start game', (players, gameWords, couleur) => {
-    startGame(gameWords);
+    document.getElementById("popup").style.visibility = "hidden"
     couleur12 = couleur;
+    startGame(gameWords);
 });
 
 socket.on('actualize_secret', (secret) => {
@@ -148,7 +149,12 @@ socket.on('changeTeamTurn', (teamNumber) => {
 });
 
 socket.on('winner', (teamNumber) => {
-    let p = document.getElementById("popup").style.visibility = 'visible';
+    let p = document.getElementById("popup")
+    p.style.visibility = 'visible';
+    p.innerHTML = `<div id="winner"></div>
+    <p>Voulez vous rejouer ?</p>
+    <button class="replayButton" onclick="replay()">Rejouer</button>
+    <button class="quitButton" onclick="disconnect()">Quitter</button>`
     let cd = document.getElementById("winner")
     if (player.team == teamNumber) {
         cd.innerHTML = "Vous avez gagné !"
@@ -156,6 +162,14 @@ socket.on('winner', (teamNumber) => {
     else{
         cd.innerHTML = "Vous avez perdu !"
     }
+})
+
+socket.on('replay', (nbPlayers) => {
+    document.getElementById("replay").innerHTML = "<br />" + nbPlayers + "/4 sont prêts"
+})
+
+socket.on('initGame', () => {
+    initGame()
 })
 
 function spyTurn() {
@@ -170,18 +184,24 @@ function agentTurn() {
     }
 }
 
-function startGame(gameWords, couleur) {
+socket.on('makeLobbyVisible', () => {
+    updateVisibility()
+})
 
+function updateVisibility(){
     let lobby1 = document.getElementById('lobbygame');
     let container = document.getElementById('to_remove')
     lobby1.style.visibility = "visible";
     container.remove();
+}
 
+function startGame(gameWords, couleur) {
 
     for (let i = 0; i < 25; i++) {
         let y = document.getElementById(i)
         y.textContent = gameWords[i]
         y.disabled = true;
+        y.className = 'cartes'
     }
 
     InputButton.disabled = true;
@@ -389,4 +409,34 @@ function enable_cards() {
         let GameP = document.getElementById(i);
         GameP.disabled = false;
     }
+}
+
+function replay(){
+    let p = document.getElementById("popup")
+    p.innerHTML = `<div class="replay">En attente  de joueur...
+    <div id="replay"></div></div>`
+    socket.emit("replay", player.roomId)
+}
+
+function disconnect(){
+    socket.emit("quit", player.roomId)
+}
+
+function initGame(){
+    player.turn =  false
+    player.team= ""
+    player.role= ""
+    scoreRouge = 9
+    scoreBleu = 8
+    carteRetournee = 0
+    InputButton.disabled = true
+    
+    document.getElementById("espion-button1").textContent = "choisir ce role"
+    document.getElementById("espion-button1").disabled = false
+    document.getElementById("espion-button2").textContent = "choisir ce role"
+    document.getElementById("espion-button2").disabled = false
+    document.getElementById("agent-button1").textContent = "choisir ce role"
+    document.getElementById("agent-button1").disabled = false
+    document.getElementById("agent-button2").textContent = "choisir ce role"
+    document.getElementById("agent-button2").disabled = false
 }
