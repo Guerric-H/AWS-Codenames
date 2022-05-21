@@ -78,9 +78,9 @@ io.on('connection', (socket) => {
             io.to(roomID).emit('actualize_card', card);
         });
 
-        socket.on('send_role', (id, username, clicked, roomID) => {
+        socket.on('send_role', (id, username, roomID) => {
             io.to(roomID).emit('actualize_role', id, username);
-            if (clicked == 0) room.nb_player++;
+            room.nb_player++;
             console.log(room.nb_player)
             if (room.nb_player == 4) {
                 io.to(roomID).emit('changeTeamTurn', 1);

@@ -197,8 +197,6 @@ const joinRoom = function () {
 }
 const jointeam = function (id) {
     let role = document.getElementById(id);
-    let clicked = 0
-    if (player.team == 1 || player.team == 2) clicked = 1
 
     if (id == "espion-button1") {
         player.team = 1;
@@ -211,12 +209,19 @@ const jointeam = function (id) {
     } else if (id == "agent-button1") {
         player.team = 1
         player.role = 1
-        remove_input.remove(document.getElementsByClassName("indices"));
+
+        console.log("test_agent1");
+        document.getElementById("removal_agent").remove();
+        console.log("test_agent1_removal?");
 
     } else if (id == "agent-button2") {
         player.team = 2
         player.role = 1
-        remove_input.remove(document.getElementsByClassName("indices"));
+
+        console.log("test_agent2");
+        document.getElementById("removal_agent").remove();
+        console.log("test_agent2_removal?");
+
     }
     else console.log("error joinTeam")
     console.log(player.username + player.role + player.team)
@@ -225,7 +230,7 @@ const jointeam = function (id) {
     }
     role.textContent = player.username
     disable_roles_buttons();
-    socket.emit('send_role', id, player.username, clicked, player.roomId);
+    socket.emit('send_role', id, player.username, player.roomId);
 }
 
 const makeAllVisible = function () {
