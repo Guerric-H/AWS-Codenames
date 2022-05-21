@@ -205,42 +205,26 @@ const jointeam = function (id) {
     if (id == "espion-button1") {
         player.team = 1;
         player.role = 0;
-        role.textContent = player.username;
-        document.getElementById("espion-button2").disabled = true;
-        document.getElementById("agent-button2").disabled = true;
-        document.getElementById("agent-button1").disabled = true;
 
     } else if (id == "espion-button2") {
         player.team = 2;
         player.role = 0;
-        role.textContent = player.username;
-        document.getElementById("espion-button1").disabled = true;
-        document.getElementById("agent-button2").disabled = true;
-        document.getElementById("agent-button1").disabled = true;
-
 
     } else if (id == "agent-button1") {
         player.team = 1
         player.role = 1
-        role.textContent = player.username
-        document.getElementById("espion-button2").disabled = true;
-        document.getElementById("espion-button1").disabled = true;
-        document.getElementById("agent-button2").disabled = true;
-
 
     } else if (id == "agent-button2") {
         player.team = 2
         player.role = 1
-        role.textContent = player.username
-        document.getElementById("espion-button2").disabled = true;
-        document.getElementById("espion-button1").disabled = true;
-        document.getElementById("agent-button1").disabled = true;
     }
     else console.log("error joinTeam")
     console.log(player.username + player.role + player.team)
     if (player.role == 0) {
         makeAllVisible();
     }
+    role.textContent = player.username
+    disable_roles_buttons();
     socket.emit('send_role', id, player.username, clicked, player.roomId);
 }
 
@@ -375,4 +359,11 @@ function revealspy(cardID) {
         cd.removeAttribute("cartes")
         cd.setAttribute("class", "revCartesNeutres")
     }
+}
+
+function disable_roles_buttons() {
+    document.getElementById("espion-button2").disabled = true;
+    document.getElementById("espion-button1").disabled = true;
+    document.getElementById("agent-button1").disabled = true;
+    document.getElementById("agent-button2").disabled = true;
 }
