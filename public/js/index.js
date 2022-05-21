@@ -137,6 +137,7 @@ socket.on('actualize_role', (id, username) => {
 });
 
 socket.on('changeTeamTurn', (teamNumber) => {
+    disable_cards();
     if (player.team == teamNumber) {
         player.turn = true;
     }
@@ -159,10 +160,7 @@ function spyTurn() {
 
 function agentTurn() {
     if (player.role == 1 && player.turn == true) {
-        for (let i = 0; i < 25; i++) {
-            let GameP = document.getElementById(i);
-            GameP.disabled = false;
-        }
+        disable_cards();
     }
 }
 
@@ -366,4 +364,11 @@ function disable_roles_buttons() {
     document.getElementById("espion-button1").disabled = true;
     document.getElementById("agent-button1").disabled = true;
     document.getElementById("agent-button2").disabled = true;
+}
+
+function disable_cards() {
+    for (let i = 0; i < 25; i++) {
+        let GameP = document.getElementById(i);
+        GameP.disabled = false;
+    }
 }

@@ -97,12 +97,13 @@
 
         <div class="indices">
             <div class="clef">
-                <input type="text" name="keyword" id="keyword"> Saisir un mot-clé !</input>
+                <input type="text" name="keyword" id="keyword" placeholder="Saisir un mot-clé !"> </input>
             </div>
 
             <div class="nombre">
-                <input type="text" name="number_keyword" id="number_keyword"> Choisir le nombre de mots à faire
-                deviner.</input>
+                <input type="text" name="number_keyword" id="number_keyword"
+                    placeholder="Choisir le nombre de mots à faire deviner.">
+                </input>
             </div>
             <div class="saisie">
                 <button type="submit" id="send_secret" onclick="send_secret()"> Envoyer !</button>
@@ -146,53 +147,78 @@
                         Agent :
                     </td>
                     <td>
-                        <button id="agent-button2" class="button is-dark" onclick="jointeam(this.id)"></button>
+                        <button id="agent-button2" class="button is-dark" onclick="jointeam(this.id)" placeholder="role""></button>
                     </td>
                 </tr>
             </table>
         </div>
 
 
-        <div class="plateau">
+        <div class=" plateau">
 
-            <table>
-                <tr>
-                    <td><button class="cartes" id="0" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="1" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="2" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="3" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="4" onClick="reply_click(this.id)" type="submit"></button></td>
-                </tr>
-                <tr>
-                    <td><button class="cartes" id="5" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="6" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="7" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="8" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="9" onClick="reply_click(this.id)" type="submit"></button></td>
-                </tr>
-                <tr>
-                    <td><button class="cartes" id="10" onClick="reply_click(this.id)" type="submit"></button> </td>
-                    <td><button class="cartes" id="11" onClick="reply_click(this.id)" type="submit"></button> </td>
-                    <td><button class="cartes" id="12" onClick="reply_click(this.id)" type="submit"></button> </td>
-                    <td><button class="cartes" id="13" onClick="reply_click(this.id)" type="submit"></button> </td>
-                    <td><button class="cartes" id="14" onClick="reply_click(this.id)" type="submit"></button></td>
-                </tr>
-                <tr>
-                    <td><button class="cartes" id="15" onClick="reply_click(this.id)" type="submit"> </button></td>
-                    <td><button class="cartes" id="16" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="17" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="18" onClick="reply_click(this.id)" type="submit"></button></td>
-                    <td><button class="cartes" id="19" onClick="reply_click(this.id)" type="submit"></button></td>
-                </tr>
-                <tr>
-                    <td><button class="cartes" id="20" onClick="reply_click(this.id)" type="submit"> </button> </td>
-                    <td><button class="cartes" id="21" onClick="reply_click(this.id)" type="submit"> </button> </td>
-                    <td><button class="cartes" id="22" onClick="reply_click(this.id)" type="submit"> </button> </td>
-                    <td><button class="cartes" id="23" onClick="reply_click(this.id)" type="submit"> </button> </td>
-                    <td><button class="cartes" id="24" onClick="reply_click(this.id)" type="submit"></button></td>
-                </tr>
+                            <table>
+                                <tr>
+                                    <td><button class="cartes" id="0" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="1" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="2" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="3" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="4" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="cartes" id="5" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="6" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="7" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="8" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="9" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="cartes" id="10" onClick="reply_click(this.id)"
+                                            type="submit"></button> </td>
+                                    <td><button class="cartes" id="11" onClick="reply_click(this.id)"
+                                            type="submit"></button> </td>
+                                    <td><button class="cartes" id="12" onClick="reply_click(this.id)"
+                                            type="submit"></button> </td>
+                                    <td><button class="cartes" id="13" onClick="reply_click(this.id)"
+                                            type="submit"></button> </td>
+                                    <td><button class="cartes" id="14" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="cartes" id="15" onClick="reply_click(this.id)" type="submit">
+                                        </button></td>
+                                    <td><button class="cartes" id="16" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="17" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="18" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                    <td><button class="cartes" id="19" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                </tr>
+                                <tr>
+                                    <td><button class="cartes" id="20" onClick="reply_click(this.id)" type="submit">
+                                        </button> </td>
+                                    <td><button class="cartes" id="21" onClick="reply_click(this.id)" type="submit">
+                                        </button> </td>
+                                    <td><button class="cartes" id="22" onClick="reply_click(this.id)" type="submit">
+                                        </button> </td>
+                                    <td><button class="cartes" id="23" onClick="reply_click(this.id)" type="submit">
+                                        </button> </td>
+                                    <td><button class="cartes" id="24" onClick="reply_click(this.id)"
+                                            type="submit"></button></td>
+                                </tr>
 
-            </table>
+                            </table>
         </div>
 </body>
 
