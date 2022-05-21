@@ -255,7 +255,6 @@ const makeAllVisible = function () {
 
 function reply_click(cardID) {
     //On ajoute la carte à celles selectionnées
-    clicked_cartes.push(cardID);
     document.getElementById(cardID).disabled = true;
     //Permet de récupérer l'élément via son ID propre
     carteRetournee++
@@ -281,13 +280,8 @@ function reply_click(cardID) {
 }
 
 function winner(teamNumber) {
+    disable_cards();
     socket.emit("winner", teamNumber, player.roomId)
-    if (player.team == teamNumber) alert("Vous avez gagnez !!")
-    else alert("Bouuuuuh")
-    for (let i = 0; i < 25; i++) {
-        let GameP = document.getElementById(i);
-        GameP.disabled = true;
-    }
 }
 
 function isNumeric(value) {
@@ -316,6 +310,7 @@ function send_secret() {
 }
 
 function revealagent(cardID) {
+    clicked_cartes.push(cardID);
     let cd = document.getElementById(cardID)
 
     if (couleur_cartes[cardID] == 1) {
@@ -384,8 +379,10 @@ function disable_cards() {
 
 function enable_cards() {
     for (let i = 0; i < 25; i++) {
-        let GameP = document.getElementById(i);
-        if (clicked_cartes.indexOf(i) == -1)
+        if (clicked_cartes.indexOf(i) == -1) {
+            let GameP = document.getElementById(i);
             GameP.disabled = false;
+        }
+
     }
 }
