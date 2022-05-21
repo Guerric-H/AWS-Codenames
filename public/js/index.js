@@ -128,7 +128,7 @@ socket.on('actualize_card', (cardID) => {
     if (player.role == 1) {
         revealagent(cardID);
     }
-    check_winner();
+    check_winner(cardID);
 });
 
 socket.on('actualize_role', (id, username) => {
@@ -227,21 +227,23 @@ const jointeam = function (id) {
     if (id == "espion-button1") {
         player.team = 1;
         player.role = 0;
+        document.getElementById("removal_agent").style.visibility = "visible"
 
     } else if (id == "espion-button2") {
         player.team = 2;
         player.role = 0;
+        document.getElementById("removal_agent").style.visibility = "visible"
 
     } else if (id == "agent-button1") {
         player.team = 1
         player.role = 1
-        document.getElementById("removal_agent").remove();
+        document.getElementById("removal_agent").style.visibility = "hidden"
 
 
     } else if (id == "agent-button2") {
         player.team = 2
         player.role = 1
-        document.getElementById("removal_agent").remove();
+        document.getElementById("removal_agent").style.visibility = "hidden"
 
 
     }
@@ -434,7 +436,7 @@ function initGame(){
     document.getElementById("agent-button2").disabled = false
 }
 
-function check_winner() {
+function check_winner(cardID) {
     if (scoreRouge == 0) winner(1)
     else if (scoreBleu == 0) winner(2)
     else if (couleur_cartes[cardID] == 3) winner((player.team % 2) + 1)
