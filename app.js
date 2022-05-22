@@ -71,6 +71,9 @@ io.on('connection', (socket) => {
 
         io.to(socket.id).emit('join room', room.id);
 
+        socket.on('send_active_player', (role_id, roomId) => {
+            io.to(roomId).emit('actualize_active_player', role_id);
+        })
 
         socket.on('send_secret', (secret, roomID) => {
             console.log(secret);

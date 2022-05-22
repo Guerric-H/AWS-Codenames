@@ -7,6 +7,7 @@ const player = {
     turn: false,
     team: "",
     role: "",
+    role_id: "",
 
 };
 
@@ -142,6 +143,10 @@ socket.on('actualize_role', (id, username) => {
     role.disabled = true;
 });
 
+socket.on('actualize_active_player', id => {
+    active_player(id);
+})
+
 socket.on('changeTeamTurn', (teamNumber) => {
     disable_cards();
     if (player.team == teamNumber) {
@@ -197,12 +202,14 @@ function updateVisibility() {
 
 function spyTurn() {
     if (player.role == 0 && player.turn == true) {
+        socket.emit('send_active_player', player.role_id, player.roomId);
         document.getElementById("send_secret").disabled = false;
     }
 }
 
 function agentTurn() {
     if (player.role == 1 && player.turn == true) {
+        socket.emit('send_active_player', player.role_id, player.roomId);
         enable_cards();
     }
 }
@@ -234,6 +241,7 @@ function joinRoom() {
     }
 }
 function jointeam(id) {
+    player.role_id = id;
     let role = document.getElementById(id);
     let visible_submit = document.getElementById("removal_agent");
 
@@ -457,4 +465,26 @@ function check_winner(cardID) {
     if (scoreRouge == 0) winner(1)
     else if (scoreBleu == 0) winner(2)
     else if (couleur_cartes[cardID] == 3) winner((player.team % 2) + 1)
+}
+
+function active_player(id) {
+    let espionBleu = document.getElementById("espion-button2");
+    espionBleu.style.backgroundColor = "lightblue";
+    espionBleu.style.color = "black";
+
+    let espionRouge = document.getElementById("espion-button1");
+    espionRouge.style.backgroundColor = "lightcoral";
+    espionRouge.style.color = "black";
+
+    let agentBleu = document.getElementById("agent-button2");
+    agentBleu.style.backgroundColor = "lightblue";
+    agentBleu.style.color = "black";
+
+    let agentRouge = document.getElementById("agent-button1");
+    agentRouge.style.backgroundColor = "lightcoral";
+    agentRouge.style.color = "black";
+
+    let active = document.getElementById(id);
+    active.style.backgroundColor = "green";
+    active.style.color = "white";
 }
