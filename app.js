@@ -120,22 +120,8 @@ io.on('connection', (socket) => {
 
         //Première vérif
         if (room.players.length === 4) {
-
             io.to(room.id).emit('makeLobbyVisible')
-            let type = [7, 9, 8, 1]
-            let randomType = ""
-            let gameWords = [];
-            let couleur = [];
-            let randomNumber = 0
-            let randomWord = "not_valid"
-
-
-            initiatePlateau(type, randomType, gameWords, randomNumber, randomWord, couleur);
-            console.log(gameWords)
-            console.table(couleur)
-            io.to(room.id).emit('start game', gameWords, couleur);
-
-
+            initGame(room);
         }
 
 
@@ -170,20 +156,9 @@ function initGame(room) {
     let gameWords = [];
     let randomNumber = 0
     let randomWord = "not_valid"
+    let couleur = [];
 
-    for (let i = 0; i < 25; i++) {
-        do {
-            randomNumber = Math.floor(Math.random() * dico.length);
-            randomWord = dico[randomNumber];
-        } while (gameWords.indexOf(randomWord) != -1);
-
-        gameWords.push(randomWord);
-        randomType = Math.floor(Math.random() * 4)
-
-        while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
-        couleur[i] = randomType
-        type[randomType]--
-    }
+    initiatePlateau(type, randomType, gameWords, randomNumber, randomWord, couleur);
     console.log(gameWords)
     console.table(couleur)
     io.to(room.id).emit('start game', gameWords, couleur);
