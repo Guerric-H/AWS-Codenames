@@ -113,6 +113,7 @@ socket.on('join room', (roomId) => {
 socket.on('start game', (gameWords, couleur) => {
     document.getElementById("popup").style.visibility = "hidden";
     startGame(gameWords);
+    set_color_roles();
     couleur_cartes = couleur;
 });
 
@@ -439,6 +440,7 @@ function replay() {
 }
 
 function disconnect() {
+    window.location.reload();
     socket.emit('quit', player.roomId);
 }
 
@@ -468,6 +470,13 @@ function check_winner(cardID) {
 }
 
 function active_player(id) {
+    set_color_roles();
+    let active = document.getElementById(id);
+    active.style.backgroundColor = "green";
+    active.style.color = "white";
+}
+
+function set_color_roles() {
     let espionBleu = document.getElementById("espion-button2");
     espionBleu.style.backgroundColor = "lightblue";
     espionBleu.style.color = "black";
@@ -483,8 +492,4 @@ function active_player(id) {
     let agentRouge = document.getElementById("agent-button1");
     agentRouge.style.backgroundColor = "lightcoral";
     agentRouge.style.color = "black";
-
-    let active = document.getElementById(id);
-    active.style.backgroundColor = "green";
-    active.style.color = "white";
 }
