@@ -453,6 +453,7 @@ function initGame() {
     scoreBleu = 8
     carteRetournee = 0
     InputButton.disabled = true
+    clicked_cartes = [];
 
     document.getElementById("keyword_result").textContent = "Mot-Clé"
     document.getElementById("number_result").textContent = "Nombre"
