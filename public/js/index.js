@@ -453,6 +453,9 @@ function initGame() {
     carteRetournee = 0
     InputButton.disabled = true
 
+    document.getElementById("keyword_result").textContent = "Mot-Clé"
+    document.getElementById("number_result").textContent = "Nombre"
+
     document.getElementById("espion-button1").textContent = "choisir ce role"
     document.getElementById("espion-button1").disabled = false
     document.getElementById("espion-button2").textContent = "choisir ce role"

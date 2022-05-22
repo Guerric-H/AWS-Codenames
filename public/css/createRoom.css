@@ -344,7 +344,7 @@ body {
   height: 100%;
 }
 
-.popup{
+.popup {
   width: 250px;
   height: 100px;
   background-color: #fff;
@@ -357,7 +357,7 @@ body {
   visibility: hidden;
 }
 
-.popup button{
+.popup button {
   width: 30%;
   background-color: #3448a1;
   outline: none;
