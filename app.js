@@ -79,9 +79,9 @@ io.on('connection', (socket) => {
             io.to(roomID).emit('actualize_secret', secret);
         });
 
-        socket.on('pick_card', (card, roomID) => {
+        socket.on('pick_card', (card, roomID, id) => {
             console.log(card);
-            io.to(roomID).emit('actualize_card', card);
+            io.to(roomID).emit('actualize_card', card, id);
         });
 
         socket.on('send_role', (id, username, roomID) => {

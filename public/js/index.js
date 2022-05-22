@@ -128,14 +128,15 @@ socket.on('actualize_secret', (secret) => {
     agentTurn()
 });
 
-socket.on('actualize_card', (cardID) => {
+socket.on('actualize_card', (cardID, id) => {
     if (player.role == 0) {
         revealspy(cardID);
     }
     if (player.role == 1) {
         revealagent(cardID);
     }
-    check_winner(cardID);
+    if (player.role_id == id)
+        check_winner(cardID);
 });
 
 socket.on('actualize_role', (id, username) => {
@@ -168,17 +169,16 @@ socket.on('winner', (teamNumber) => {
     <button class="quitButton" onclick="disconnect()">Quitter</button>`
 
     let cd = document.getElementById("winner")
-    console.log("My team = " + player.team + "Victoire = " + teamNumber);
     if (player.team == teamNumber) {
-        cd.innerHTML = "Vous avez gagné !"
+        cd.textContent = "Vous avez gagné !"
     }
     else {
-        cd.innerHTML = "Vous avez perdu !"
+        cd.textContent = "Vous avez perdu !"
     }
 })
 
 socket.on('replay', nbPlayers => {
-    document.getElementById("replay").innerHTML = "<br />" + nbPlayers + "/4 sont prêts";
+    document.getElementById("replay").textContent = nbPlayers + "/4 sont prêts";
 })
 
 socket.on('initGame', () => {
@@ -306,7 +306,7 @@ function reply_click(cardID) {
     //Permet de récupérer l'élément via son ID propre
     carteRetournee++
     //Permet de changer la classe cartes (neutre) par la classe de couleur qu'on veut. Il y a cartesBleu, cartesRouge et carteNoire
-    socket.emit('pick_card', cardID, player.roomId);
+    socket.emit('pick_card', cardID, player.roomId, player.role_id);
 
 
     let secret_nb = document.getElementById('number_result').textContent
