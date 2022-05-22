@@ -168,6 +168,7 @@ socket.on('winner', (teamNumber) => {
     <button class="quitButton" onclick="disconnect()">Quitter</button>`
 
     let cd = document.getElementById("winner")
+    console.log("My team = " + player.team + "Victoire = " + teamNumber);
     if (player.team == teamNumber) {
         cd.innerHTML = "Vous avez gagné !"
     }
