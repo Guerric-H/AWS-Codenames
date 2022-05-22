@@ -48,6 +48,10 @@ io.on('connection', (socket) => {
         console.log(playername);
         let room = null;
 
+        socket.on('get rooms', () => {
+            io.to(socket.id).emit('list rooms', rooms);
+        });
+
 
         if (!player.roomId) {
             room = createRoom(player);
@@ -94,7 +98,6 @@ io.on('connection', (socket) => {
 
         socket.on('winner', (teamNumber, roomID) => {
             io.to(roomID).emit('winner', (teamNumber))
-            room.players.length = 0;
         })
 
         socket.on('replay', roomID => {

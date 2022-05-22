@@ -55,6 +55,7 @@ let couleur_cartes = []
 let clicked_cartes = []
 
 socket.emit('get rooms');
+
 socket.on('list rooms', (rooms) => {
     let html = "";
 
@@ -420,12 +421,6 @@ function enable_cards() {
         let GameP = document.getElementById(clicked_cartes[i]);
         GameP.disabled = true;
     }
-}
-
-function check_winner(cardID) {
-    if (scoreRouge == 0) winner(1)
-    else if (scoreBleu == 0) winner(2)
-    else if (couleur_cartes[cardID] == 3) winner((player.team % 2) + 1)
 }
 
 function replay() {
