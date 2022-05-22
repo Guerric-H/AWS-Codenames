@@ -13,7 +13,6 @@ server.listen(port, () => {
 const path = require('path');
 const wordPage = __dirname + '/public/js/dico.json'
 let dico = require(wordPage);
-let couleur = [];
 /**
  * @type {Socket}
  */
@@ -126,22 +125,12 @@ io.on('connection', (socket) => {
             let type = [7, 9, 8, 1]
             let randomType = ""
             let gameWords = [];
+            let couleur = [];
             let randomNumber = 0
             let randomWord = "not_valid"
 
-            for (let i = 0; i < 25; i++) {
-                do {
-                    randomNumber = Math.floor(Math.random() * dico.length);
-                    randomWord = dico[randomNumber];
-                } while (gameWords.indexOf(randomWord) != -1);
 
-                gameWords.push(randomWord);
-                randomType = Math.floor(Math.random() * 4)
-
-                while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
-                couleur[i] = randomType
-                type[randomType]--
-            }
+            initiatePlateau(type, randomType, gameWords, randomNumber, randomWord, couleur);
             console.log(gameWords)
             console.table(couleur)
             io.to(room.id).emit('start game', gameWords, couleur);
@@ -215,4 +204,31 @@ function createRoom(player) {
 
 function roomId() {
     return Math.random().toString(36).substring(2, 9);
+}
+
+
+function initiatePlateau(type, randomType, gameWords, randomNumber, randomWord, couleur) {
+    for (let i = 0; i < 25; i++) {
+        do {
+            randomNumber = Math.floor(Math.random() * dico.length);
+            randomWord = dico[randomNumber];
+        } while (gameWords.indexOf(randomWord) != -1);
+
+        gameWords.push(randomWord);
+        randomType = Math.floor(Math.random() * 4)
+
+        while (!type[randomType]) { randomType = Math.floor(Math.random() * 4) }
+        couleur[i] = randomType
+        type[randomType]--
+    }
+    shuffleArray(gameWords);
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
 }
